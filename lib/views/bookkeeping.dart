@@ -1,3 +1,4 @@
+import 'package:book_keeping_app/models/cashbook_model.dart';
 import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -20,15 +21,14 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
 
   TextEditingController principalcontroller = TextEditingController();
   TextEditingController receiptnocontroller = TextEditingController();
-  TextEditingController termcontroller = TextEditingController();
-  TextEditingController detailscontroller = TextEditingController();
-  TextEditingController _mydatecontroller;
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
 
-  var _currentitemsel = "";
+  TextEditingController descriptioncontroller = TextEditingController();
+  TextEditingController _mydatecontroller;
 
   void initState() {
     super.initState();
-    _currentitemsel = _currencies[0];
     _mydatecontroller = new TextEditingController();
   }
 
@@ -52,36 +52,6 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
             child: ListView(
               children: <Widget>[
                 Icon(LineAwesomeIcons.book, size: 100, color: Colors.blue),
-                // Padding(
-                //     padding: EdgeInsets.only(
-                //         top: _minimumpadding, bottom: _minimumpadding),
-                //     child: TextFormField(
-                //         keyboardType: TextInputType.number,
-                //         style: textStyle,
-                //         controller: principalcontroller,
-                //         validator: (String value) {
-                //           Pattern pat = r'^[0-9]';
-                //           RegExp regex = new RegExp(pat);
-
-                //           if (value.isEmpty) {
-                //             return "Principal required*";
-                //           } else if (!(regex.hasMatch(value))) {
-                //             return "Number have to be input";
-                //           }
-                //         },
-                //         decoration: InputDecoration(
-                //             labelText: 'Principal',
-                //             hintText: 'Enter Principal',
-                //             labelStyle: textStyle,
-                //             errorStyle: TextStyle(
-                //               color: Colors.yellowAccent,
-                //               fontSize: 15.0,
-                //             ),
-                //             errorBorder: new OutlineInputBorder(
-                //                 borderSide:
-                //                     new BorderSide(color: Colors.yellow)),
-                //             border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(5.0))))),
                 Padding(
                   padding: EdgeInsets.only(
                       top: _minimumpadding, bottom: _minimumpadding),
@@ -143,13 +113,13 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                           RegExp regex = new RegExp(pat);
 
                           if (value.isEmpty) {
-                            return "No of Receipt Required*";
+                            return "Receipt No. Required*";
                           } else if (!(regex.hasMatch(value))) {
                             return "Number have to be input";
                           }
                         },
                         decoration: InputDecoration(
-                            labelText: 'No Of Receipt',
+                            labelText: 'Receipt No',
                             hintText: 'Numerics',
                             labelStyle: textStyle,
                             errorStyle: TextStyle(
@@ -166,15 +136,15 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                     child: TextFormField(
                         keyboardType: TextInputType.text,
                         style: textStyle,
-                        controller: detailscontroller,
+                        controller: descriptioncontroller,
                         validator: (String value) {
                           if (value.isEmpty) {
                             return "Details Required*";
                           }
                         },
                         decoration: InputDecoration(
-                            labelText: 'Details',
-                            hintText: 'Details about the book',
+                            labelText: 'Description',
+                            hintText: 'Details about the books',
                             labelStyle: textStyle,
                             errorStyle: TextStyle(
                               color: Colors.redAccent,
@@ -206,9 +176,9 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                             // }
                           },
                           style: textStyle,
-                          controller: termcontroller,
+                          controller: quantityController,
                           decoration: InputDecoration(
-                              labelText: 'Sale',
+                              labelText: 'Quantity',
                               hintText: 'Numerics',
                               labelStyle: textStyle,
                               errorStyle: TextStyle(
@@ -221,23 +191,45 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
                         )),
-                        // Container(
-                        //   width: _minimumpadding * 5,
-                        // ),
-                        // Expanded(
-                        //     child: DropdownButton<String>(
-                        //   items: _currencies.map((String value) {
-                        //     return DropdownMenuItem<String>(
-                        //       value: value,
-                        //       child: Text(value),
-                        //     );
-                        //   }).toList(),
-                        //   value: _currentitemsel,
-                        //   style: textStyle,
-                        //   onChanged: (String newvalsel) {
-                        //     _ondropdownitemsel(newvalsel);
-                        //   },
-                        // )),
+                      ],
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: _minimumpadding, bottom: _minimumpadding),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          validator: (String value) {
+                            Pattern pat = r'^[0-9]';
+                            RegExp regex = new RegExp(pat);
+
+                            if (value.isEmpty) {
+                              return "Sale Required*";
+                            } else if (!(regex.hasMatch(value))) {
+                              return "Number only";
+                            }
+                            // if(value.isEmpty){
+                            //   return "Enter year properly";
+                            // }
+                          },
+                          style: textStyle,
+                          controller: amountController,
+                          decoration: InputDecoration(
+                              labelText: 'Amount',
+                              hintText: 'Numerics',
+                              labelStyle: textStyle,
+                              errorStyle: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 15.0,
+                              ),
+                              errorBorder: new OutlineInputBorder(
+                                  borderSide:
+                                      new BorderSide(color: Colors.red)),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0))),
+                        )),
                       ],
                     )),
                 Padding(
@@ -248,16 +240,14 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                         Expanded(
                           child: RaisedButton(
                             color: Theme.of(context).primaryColorDark,
-                            textColor: Theme.of(context).primaryColorLight,
+                            textColor: Colors.white,
                             child: Text(
-                              'Calculate',
+                              'Save',
                               textScaleFactor: 1.5,
                             ),
                             onPressed: () {
                               setState(() {
-                                if (_formKey.currentState.validate()) {
-                                  this.displayresult = _calculatetotal();
-                                }
+                                // var buffer = new Cashbook(receipt_no: ,details:,salesCount: ,cashInHand: ,date: );
                               });
                             },
                           ),
@@ -268,7 +258,7 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                         Expanded(
                           child: RaisedButton(
                             color: Theme.of(context).primaryColorDark,
-                            textColor: Theme.of(context).primaryColorLight,
+                            textColor: Colors.white,
                             child: Text(
                               'Reset',
                               textScaleFactor: 1.5,
@@ -295,43 +285,13 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
     );
   }
 
-  Widget getImage() {
-    AssetImage assetimage = AssetImage('images/money.png');
-    Image image = Image(
-      image: assetimage,
-      width: 125.0,
-      height: 125.0,
-    );
-
-    return Container(
-      child: image,
-      margin: EdgeInsets.all(_minimumpadding * 10),
-    );
-  }
-
-  void _ondropdownitemsel(String newvalsel) {
-    setState(() {
-      this._currentitemsel = newvalsel;
-    });
-  }
-
-  String _calculatetotal() {
-    double principal = double.parse(principalcontroller.text),
-        receiptno = double.parse(receiptnocontroller.text),
-        term = double.parse(termcontroller.text);
-    double total = principal + (principal * receiptno * term) / 100;
-    String result =
-        'After $term years, your investment will be worth $total $_currentitemsel';
-    return result;
-  }
-
   void _reset() {
     principalcontroller.clear();
     receiptnocontroller.clear();
-    termcontroller.clear();
+    quantityController.clear();
+    amountController.clear();
     displayresult = "";
-    detailscontroller.clear();
-    _currentitemsel = _currencies[0];
+    descriptioncontroller.clear();
     _mydatecontroller.clear();
     _date_picker_text = "";
   }
