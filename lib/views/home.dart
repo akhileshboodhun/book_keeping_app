@@ -1,178 +1,110 @@
-// import 'package:flutter_spleshscreen/Constant/Constant.dart';
+import 'package:book_keeping_app/views/reservations.dart';
+import 'package:book_keeping_app/views/viewdetails.dart';
 import 'package:book_keeping_app/widgets/mydrawer.dart';
 import 'package:book_keeping_app/widgets/mytile.dart';
-import 'package:flat_icons_flutter/flat_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'bookkeeping.dart';
+import 'dashboard.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  HomeScreenState createState() => new HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
-    const StaggeredTile.count(2, 2),
+    const StaggeredTile.count(3, 3),
+    const StaggeredTile.count(3, 3),
+    const StaggeredTile.count(3, 3),
+    const StaggeredTile.count(3, 3),
   ];
 
   List<Widget> _tiles = <Widget>[
     MyTile(
-      Colors.green,
-      FlatIcons.calendar_2,
-      'Schedule Food',
-      viewComponent: null,
+      Colors.lightBlue,
+      LineAwesomeIcons.book,
+      'Cash Out Book',
+      viewComponent: BookKeepingForm(),
     ),
-    MyTile(Colors.lightBlue, FlatIcons.add_3, 'Add Order'),
-    MyTile(Colors.amber, FlatIcons.add_3, 'Add Food'),
-    MyTile(Colors.brown, FlatIcons.edit, 'Manage Orders'),
-    MyTile(Colors.deepOrange, FlatIcons.bookmark, 'Special Requests'),
-    MyTile(Colors.indigo, Icons.fastfood, 'Manage Food'),
-    MyTile(Colors.red, FlatIcons.user_3, 'Manage Profile'),
-    MyTile(Colors.red, FlatIcons.list, 'Daily Orders'),
-    MyTile(Colors.red, FlatIcons.list_1, 'All Orders'),
     MyTile(
-      Colors.pink,
-      FlatIcons.exit_2,
-      'Logout',
-      viewComponent: null,
+      Colors.amber,
+      LineAwesomeIcons.info,
+      'All Details',
+      viewComponent: ViewDetails(),
+    ),
+    MyTile(
+      Colors.brown,
+      LineAwesomeIcons.pie_chart,
+      'Dashboard',
+      viewComponent: Dashboard(data: null),
+    ),
+    MyTile(
+      Colors.deepOrange,
+      LineAwesomeIcons.calendar,
+      'Reservations',
+      viewComponent: Reservations(),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    return new Scaffold(
-        /* appBar: AppBar(
-          title: new Text("Home Page"),
-        ),*/
+    return Scaffold(
         drawer: MyDrawer(),
-        backgroundColor: Colors.white,
-        body: new Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            new Column(
-              children: <Widget>[
-                SizedBox(height: 70.0),
-                SizedBox(
-                  height: 0.0,
-                  child: new Text(
-                    "Home Page",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new RaisedButton(
-                    elevation: 0.0,
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)),
-                    padding: EdgeInsets.only(
-                        top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('');
-                    },
-                    child: new Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        // new Image.asset(
-                        //   'assets/images/video.png',
-                        //   height: 40.0,
-                        //   width: 40.0,
-                        // ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: new Text(
-                              "Add Entry",
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ))
-                      ],
-                    ),
-                    textColor: Color(0xFF292929),
-                    color: Colors.blueAccent),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
-                  child: new RaisedButton(
-                      elevation: 0.0,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      padding: EdgeInsets.only(
-                          top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('');
-                      },
-                      child: new Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          // new Image.asset('assets/images/image.png',
-                          //     height: 40.0, width: 40.0),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: new Text(
-                                "View All",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0),
-                              ))
-                        ],
-                      ),
-                      textColor: Color(0xFF292929),
-                      color: Colors.blueAccent),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
-                  child: new RaisedButton(
-                      elevation: 0.0,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      padding: EdgeInsets.only(
-                          top: 7.0, bottom: 7.0, right: 25.0, left: 7.0),
-                      onPressed: () async {
-                        Navigator.of(context).pushReplacementNamed('');
-                      },
-                      child: new Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          // new Image.asset(
-                          //   'assets/images/animation.png',
-                          //   height: 40.0,
-                          //   width: 40.0,
-                          // ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: new Text(
-                                "Dashboard",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0),
-                              ))
-                        ],
-                      ),
-                      textColor: Color(0xFF292929),
-                      color: Colors.blueAccent),
-                )
-              ],
-            )
-          ],
-        ));
+        appBar: AppBar(
+          title: Text('Bookkeeping App'),
+        ),
+        body: new StaggeredGridView.count(
+          shrinkWrap: false,
+          crossAxisCount: 6,
+          staggeredTiles: _staggeredTiles,
+          children: _tiles,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+          padding: const EdgeInsets.all(4.0),
+        )
+
+        // body: Center(
+        //   child: Column(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: <Widget>[
+        //       Text(
+        //         'INSERT LOGO FIH',
+        //         style: TextStyle(fontSize: 15),
+        //       ),
+        //       RaisedButton(
+        //           child: Text("Cash Out Book"),
+        //           onPressed: () {
+        //             // Navigator.of(context)
+        //             //     .pushNamed('/second', arguments: 'Hello there');
+        //             Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                     builder: (context) => BookKeepingForm()));
+        //           }),
+        //       RaisedButton(
+        //           child: Text("All Details"),
+        //           onPressed: () {
+        //             Navigator.push(context,
+        //                 MaterialPageRoute(builder: (context) => ViewDetails()));
+        //           }),
+        //       RaisedButton(
+        //           child: Text("Dashboard"),
+        //           onPressed: () {
+        //             Navigator.push(context,
+        //                 MaterialPageRoute(builder: (context) => Dashboard()));
+        //           }),
+        //       RaisedButton(
+        //           child: Text("Reservation"),
+        //           onPressed: () {
+        //             Navigator.of(context)
+        //                 .pushNamed('/second', arguments: 'Hello there');
+        //           })
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }

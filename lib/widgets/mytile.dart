@@ -24,7 +24,7 @@ class _MyTileState extends State<MyTile> {
         onTap: () {
           setState(() {
             if (this.widget.viewComponent != null) {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
@@ -41,7 +41,7 @@ class _MyTileState extends State<MyTile> {
               children: <Widget>[
                 new Icon(
                   widget.iconData,
-                  color: Colors.grey[600],
+                  color: this.widget.backgroundColor ?? Colors.grey[600],
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),

@@ -1,3 +1,8 @@
+import 'package:book_keeping_app/views/bookkeeping.dart';
+import 'package:book_keeping_app/views/dashboard.dart';
+import 'package:book_keeping_app/views/home.dart';
+import 'package:book_keeping_app/views/reservations.dart';
+import 'package:book_keeping_app/views/viewdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,21 +13,9 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  String role = '';
-  String name = '';
-  SharedPreferences prefs;
-  getPref() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      role = prefs.getString('role');
-      name = prefs.getString('name');
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    getPref();
   }
 
   @override
@@ -31,11 +24,10 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          _createHeader(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              name + ' (' + role + ')',
+              'FIH LOGO HERE',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -44,119 +36,71 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           Divider(),
-          if (role != 'employee' &&
-              role != 'approver' &&
-              role != 'delegated_approver')
-            _createDrawerItem(
-                icon: LineAwesomeIcons.dashboard,
-                text: 'Dashboard',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                }),
           _createDrawerItem(
-              icon: LineAwesomeIcons.taxi,
-              text: 'My Bookings',
+              icon: LineAwesomeIcons.home,
+              text: 'Home',
               onTap: () {
                 Navigator.pop(context);
                 //Navigator.pushNamed(context, Routes.mybookings);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) => null));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => HomeScreen()));
               }),
+          Divider(),
           _createDrawerItem(
-              icon: LineAwesomeIcons.calendar,
-              text: 'Add My Bookings',
+              icon: LineAwesomeIcons.book,
+              text: 'Cash Out Book',
               onTap: () {
                 Navigator.pop(context);
                 //Navigator.pushNamed(context, Routes.addbookings);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) => null));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => BookKeepingForm()));
               }),
           //Divider(),
-          if (role == 'superadmin' ||
-              role == 'approver' ||
-              role == 'delegated_approver')
-            _createDrawerItem(
-                icon: LineAwesomeIcons.plus,
-                text: 'Add Other Bookings',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                }),
-          if (role != 'employee')
-            _createDrawerItem(
-                icon: LineAwesomeIcons.list,
-                text: 'Booking Management',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                }),
-          if (role != 'employee' &&
-              role != 'approver' &&
-              role != 'delegated_approver')
-            _createDrawerItem(
-                icon: LineAwesomeIcons.user,
-                text: 'User List',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                }),
-          if (role == 'superadmin' || role == 'approver')
-            _createDrawerItem(
-                icon: LineAwesomeIcons.share,
-                text: 'Delegate Role',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                }),
           Divider(),
-          Column(
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  'Log Out',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                trailing: Icon(
-                  Icons.power_settings_new,
-                  color: Colors.red,
-                ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => null));
-                  // await LogoutService.logout();
-                },
-              ),
-            ],
-          ),
-          ListTile(
-            title: Text(
-              'Powered by SD Worx Interns',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
+          _createDrawerItem(
+              icon: LineAwesomeIcons.info,
+              text: 'All Details',
+              onTap: () {
+                Navigator.pop(context);
+                //Navigator.pushNamed(context, Routes.addbookings);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => ViewDetails()));
+              }),
+          //Divider(),
+          Divider(),
+          _createDrawerItem(
+              icon: LineAwesomeIcons.pie_chart,
+              text: 'Dashboard',
+              onTap: () {
+                Navigator.pop(context);
+                //Navigator.pushNamed(context, Routes.addbookings);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            Dashboard(data: null)));
+              }),
+          //Divider(),
+          Divider(),
+          _createDrawerItem(
+              icon: LineAwesomeIcons.calendar,
+              text: 'Reservation',
+              onTap: () {
+                Navigator.pop(context);
+                //Navigator.pushNamed(context, Routes.addbookings);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Reservations()));
+              }),
+          //Divider(),
+          Divider(),
         ],
       ),
     );
@@ -187,14 +131,14 @@ class _MyDrawerState extends State<MyDrawer> {
         children: <Widget>[
           Icon(
             icon,
-            color: Colors.orangeAccent[200],
+            color: Colors.blue[200],
             size: 27.0,
           ),
           Padding(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(
               text,
-              style: TextStyle(fontSize: 16.0),
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
             ),
           )
         ],

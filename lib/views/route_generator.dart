@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'firstpage.dart';
-import 'secondpage.dart';
+import 'home.dart';
+import 'dashboard.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,12 +9,12 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => FirstPage());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/second':
         // Validation of correct data type
         if (args is String) {
           return MaterialPageRoute(
-            builder: (_) => SecondPage(
+            builder: (_) => Dashboard(
               data: args,
             ),
           );

@@ -1,15 +1,17 @@
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 
-class SIForm extends StatefulWidget {
+class BookKeepingForm extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
 
-    return _SIFormState();
+    return _BookKeepingFormState();
   }
 }
 
-class _SIFormState extends State<SIForm> {
+class _BookKeepingFormState extends State<BookKeepingForm> {
   var _formKey = GlobalKey<FormState>();
   var _currencies = ["Rupees", "Dollars", "Pound Sterling"];
   final _minimumpadding = 5.0;
@@ -44,7 +46,7 @@ class _SIFormState extends State<SIForm> {
             // margin: EdgeInsets.all(_minimumpadding * 2),
             child: ListView(
               children: <Widget>[
-                getImage(),
+                Icon(LineAwesomeIcons.book, size: 100),
                 Padding(
                     padding: EdgeInsets.only(
                         top: _minimumpadding, bottom: _minimumpadding),
@@ -216,19 +218,19 @@ class _SIFormState extends State<SIForm> {
     );
   }
 
-  Widget getImage() {
-    AssetImage assetimage = AssetImage('images/money.png');
-    Image image = Image(
-      image: assetimage,
-      width: 125.0,
-      height: 125.0,
-    );
+  // Widget getImage() {
+  //   AssetImage assetimage = AssetImage('images/money.png');
+  //   Image image = Image(
+  //     image: assetimage,
+  //     width: 125.0,
+  //     height: 125.0,
+  //   );
 
-    return Container(
-      child: image,
-      margin: EdgeInsets.all(_minimumpadding * 10),
-    );
-  }
+  //   return Container(
+  //     child: image,
+  //     margin: EdgeInsets.all(_minimumpadding * 10),
+  //   );
+  // }
 
   void _ondropdownitemsel(String newvalsel) {
     setState(() {

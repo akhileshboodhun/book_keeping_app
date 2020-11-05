@@ -10,8 +10,10 @@ class ViewDetails extends StatefulWidget {
 class _ViewDetailsState extends State<ViewDetails> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('view details to be implemented'),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('View Details'),
+        ),
+        body: Center(child: Text('view details to be implemented')));
   }
 }

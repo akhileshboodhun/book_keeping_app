@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
 
-class SecondPage extends StatefulWidget {
+class Dashboard extends StatefulWidget {
   final String data;
 
-  SecondPage({
+  Dashboard({
     Key key,
     @required this.data,
   }) : super(key: key);
 
   @override
-  _SecondPageState createState() => _SecondPageState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Routing App'),
+        title: Text('Dashboard'),
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              'Second Page',
+              'Dashboard',
               style: TextStyle(fontSize: 50),
-            ),
-            Text(
-              widget.data,
-              style: TextStyle(fontSize: 20),
             ),
           ],
         ),
