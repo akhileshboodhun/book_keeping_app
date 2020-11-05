@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:book_keeping_app/models/cashbook_model.dart';
+import 'package:book_keeping_app/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String myUrl;
 
@@ -49,20 +51,20 @@ Future<bool> patchCashbook(List<Cashbook> lb, {String newDateTime}) async {
   request.headers.set('Authorization', header);
   request.headers.set('Content-type', 'application/json');
   List<Map<String, dynamic>> myjsonarray = [];
-  for (Cashbook b in lb) {
-    Map<String, dynamic> myjson = (newDateTime == null)
-        ? {
-            'status': b.status,
-            'booking_id': b.booking_id,
-            'Cashbook_date_time': b.date_time
-          }
-        : {
-            'booking_id': b.booking_id,
-            'Cashbook_date_time': b.date_time,
-            'updated_date_time': newDateTime
-          };
-    myjsonarray.add(myjson);
-  }
+  // for (Cashbook b in lb) {
+  //   Map<String, dynamic> myjson = (newDateTime == null)
+  //       ? {
+  //           'status': b.status,
+  //           'booking_id': b.booking_id,
+  //           'Cashbook_date_time': b.date_time
+  //         }
+  //       : {
+  //           'booking_id': b.booking_id,
+  //           'Cashbook_date_time': b.date_time,
+  //           'updated_date_time': newDateTime
+  //         };
+  //   myjsonarray.add(myjson);
+  // }
   request.write(json.encode(myjsonarray));
   print(json.encode(myjsonarray));
 

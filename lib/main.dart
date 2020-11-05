@@ -65,16 +65,23 @@
 // }
 import "package:flutter/material.dart";
 
-import 'home.dart';
+import 'views/home.dart';
+import 'views/route_generator.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: HomeScreen());
+      title: 'Bookkeeping App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
+    );
   }
 }
