@@ -51,7 +51,7 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
             // margin: EdgeInsets.all(_minimumpadding * 2),
             child: ListView(
               children: <Widget>[
-                Icon(Icons.book_rounded, size: 100, color: Colors.blue),
+                Icon(LineAwesomeIcons.book, size: 100, color: Colors.blue),
                 // Padding(
                 //     padding: EdgeInsets.only(
                 //         top: _minimumpadding, bottom: _minimumpadding),
