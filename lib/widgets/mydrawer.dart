@@ -84,7 +84,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            Dashboard(data: null)));
+                            DashboardGenerator()));
               }),
           //Divider(),
           Divider(),

@@ -14,9 +14,7 @@ class RouteGenerator {
         // Validation of correct data type
         if (args is String) {
           return MaterialPageRoute(
-            builder: (_) => Dashboard(
-              data: args,
-            ),
+            builder: (_) => DashboardGenerator(),
           );
         }
         // If args is not of the correct type, return an error page.

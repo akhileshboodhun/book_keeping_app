@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Colors.brown,
       LineAwesomeIcons.pie_chart,
       'Dashboard',
-      viewComponent: Dashboard(data: null),
+      viewComponent: DashboardGenerator(),
     ),
     MyTile(
       Colors.deepOrange,
