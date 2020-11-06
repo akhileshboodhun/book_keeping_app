@@ -63,16 +63,25 @@
 //     );
 //   }
 // }
+import 'package:book_keeping_app/models/cashbook_model.dart';
 import "package:flutter/material.dart";
 
 import 'views/home.dart';
 import 'views/route_generator.dart';
+import 'package:book_keeping_app/services/cashbook_service.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // postCashbook(new Cashbook(
+    //         receipt_no: 6969,
+    //         description: "lol",
+    //         quantity: 2,
+    //         amount: 123,
+    //         date: DateTime.now()))
+    //     .then((value) => print(value));
     // TODO: implement build
     return MaterialApp(
       title: 'Bookkeeping App',

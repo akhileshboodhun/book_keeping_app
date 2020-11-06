@@ -29,30 +29,30 @@ import 'package:scoped_model/scoped_model.dart';
 
 class Cashbook extends Model {
   int receipt_no;
-  DateTime date;
   String description;
   int quantity;
-  double amount;
+  int amount;
+  DateTime date;
 
   Cashbook(
       {this.receipt_no,
-      this.date,
       this.description,
       this.quantity,
-      this.amount});
+      this.amount,
+      this.date});
 
   factory Cashbook.fromJson(Map<String, dynamic> json) => Cashbook(
       receipt_no: json['receipt_no'],
-      date: json['date'],
       description: json['description'],
       quantity: json['quantity'],
-      amount: json['amount']);
+      amount: json['amount'],
+      date: DateTime.parse(json['date']));
 
   Map<String, dynamic> toJson() => {
         'receipt_no': this.receipt_no,
-        'date': this.date,
         'description': this.description,
         'quantity': this.quantity,
-        'amount': this.amount
+        'amount': this.amount,
+        'date': this.date.toIso8601String()
       };
 }

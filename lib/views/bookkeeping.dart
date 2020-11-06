@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:book_keeping_app/models/cashbook_model.dart';
+import 'package:book_keeping_app/services/cashbook_service.dart';
 import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -15,9 +18,9 @@ class BookKeepingForm extends StatefulWidget {
 
 class _BookKeepingFormState extends State<BookKeepingForm> {
   var _formKey = GlobalKey<FormState>();
-  var _currencies = ["Rupees", "Dollars", "Pound Sterling"];
   final _minimumpadding = 5.0;
   String _date_picker_text = "";
+  DateTime selectedDate = DateTime.now();
 
   TextEditingController principalcontroller = TextEditingController();
   TextEditingController receiptnocontroller = TextEditingController();
@@ -87,6 +90,7 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                                 maxTime: DateTime.now().add(Duration(days: 60)),
                                 onConfirm: (date) {
                                   setState(() {});
+                                  selectedDate = date;
                                   _date_picker_text =
                                       '${date.day}-${date.month}-${date.year}';
                                   // _add_btn_disable = false;
@@ -245,10 +249,19 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                               'Save',
                               textScaleFactor: 1.5,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                // var buffer = new Cashbook(receipt_no: ,details:,salesCount: ,cashInHand: ,date: );
-                              });
+                            onPressed: () async {
+                              var buffer = new Cashbook(
+                                  receipt_no:
+                                      int.parse(receiptnocontroller.text),
+                                  description: descriptioncontroller.text,
+                                  quantity: int.parse(quantityController.text),
+                                  amount: int.parse(amountController.text),
+                                  date: selectedDate);
+
+                              print(json.encode(buffer.toJson()));
+                              postCashbook(buffer).then((value) =>
+                                  print('status=' + value.toString()));
+                              setState(() {});
                             },
                           ),
                         ),
