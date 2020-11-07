@@ -33,26 +33,30 @@ class Cashbook extends Model {
   int quantity;
   int amount;
   DateTime date;
+  bool isReserved;
 
   Cashbook(
       {this.receipt_no,
       this.description,
       this.quantity,
       this.amount,
-      this.date});
+      this.date,
+      this.isReserved});
 
   factory Cashbook.fromJson(Map<String, dynamic> json) => Cashbook(
       receipt_no: json['receipt_no'],
       description: json['description'],
       quantity: json['quantity'],
       amount: json['amount'],
-      date: DateTime.parse(json['date']));
+      date: DateTime.parse(json['date']),
+      isReserved: json['isReserved']);
 
   Map<String, dynamic> toJson() => {
         'receipt_no': this.receipt_no,
         'description': this.description,
         'quantity': this.quantity,
         'amount': this.amount,
-        'date': this.date.toIso8601String()
+        'date': this.date.toIso8601String(),
+        'isReserved': this.isReserved
       };
 }

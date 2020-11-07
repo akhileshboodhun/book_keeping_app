@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MyTile(
       Colors.lightBlue,
       LineAwesomeIcons.book,
-      'Cash Out Book',
+      'New Entry',
       viewComponent: BookKeepingForm(),
     ),
     MyTile(

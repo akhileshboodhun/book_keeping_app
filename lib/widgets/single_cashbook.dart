@@ -2,39 +2,47 @@ import 'dart:convert';
 
 import 'package:book_keeping_app/models/cashbook_model.dart';
 import 'package:book_keeping_app/services/cashbook_service.dart';
+import 'package:book_keeping_app/utils/dateformatter.dart';
 import 'package:book_keeping_app/views/home.dart';
-import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
-class BookKeepingForm extends StatefulWidget {
+class SingleCashbookPage extends StatefulWidget {
+  SingleCashbookPage({Key key, this.cb}) : super(key: key);
+  final Cashbook cb;
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-
-    return _BookKeepingFormState();
-  }
+  _SingleCashbookPageState createState() => _SingleCashbookPageState();
 }
 
-class _BookKeepingFormState extends State<BookKeepingForm> {
+class _SingleCashbookPageState extends State<SingleCashbookPage> {
   var _formKey = GlobalKey<FormState>();
   final _minimumpadding = 5.0;
   String _date_picker_text = "";
   DateTime selectedDate = DateTime.now();
+  TextEditingController receiptnocontroller;
+  TextEditingController quantityController;
+  TextEditingController amountController;
 
-  TextEditingController principalcontroller = TextEditingController();
-  TextEditingController receiptnocontroller = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
-
-  TextEditingController descriptioncontroller = TextEditingController();
+  TextEditingController descriptioncontroller;
   TextEditingController _mydatecontroller;
-  bool checkBoxValue = false;
+  bool checkBoxValue;
 
   void initState() {
     super.initState();
-    _mydatecontroller = new TextEditingController();
+    receiptnocontroller =
+        TextEditingController(text: "${widget.cb.receipt_no}");
+    quantityController = TextEditingController(text: "${widget.cb.quantity}");
+    descriptioncontroller =
+        TextEditingController(text: "${widget.cb.description}");
+    amountController = TextEditingController(text: "${widget.cb.amount}");
+    selectedDate = widget.cb.date;
+    _date_picker_text =
+        '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}';
+    // _add_btn_disable = false;
+    print(_date_picker_text);
+    _mydatecontroller = new TextEditingController(text: _date_picker_text);
+    checkBoxValue = widget.cb.isReserved;
   }
 
   var displayresult = '';
@@ -47,7 +55,7 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
     return Scaffold(
       // resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("New Cash Out Book Entry"),
+        title: Text("Edit Cash Out Book Entry"),
       ),
       body: Form(
           key: _formKey,
@@ -111,8 +119,9 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                     padding: EdgeInsets.only(
                         top: _minimumpadding, bottom: _minimumpadding),
                     child: TextFormField(
+                        enabled: false,
                         keyboardType: TextInputType.number,
-                        style: textStyle,
+                        style: TextStyle(color: Colors.grey[800]),
                         controller: receiptnocontroller,
                         validator: (String value) {
                           Pattern pat = r'^[0-9]';
@@ -125,6 +134,8 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                           }
                         },
                         decoration: InputDecoration(
+                            fillColor: Colors.grey[200],
+                            filled: true,
                             labelText: 'Receipt No',
                             hintText: 'Numerics',
                             labelStyle: textStyle,
@@ -279,13 +290,14 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                                   isReserved: checkBoxValue);
 
                               print(json.encode(buffer.toJson()));
-                              postCashbook(buffer).then((value) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            HomeScreen()));
-                              });
+                              updateCashbook(widget.cb.receipt_no, buffer).then(
+                                  (value) =>
+                                      print('status=' + value.toString()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          HomeScreen()));
                               setState(() {});
                             },
                           ),
@@ -307,6 +319,31 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
                               });
                             },
                           ),
+                        ),
+                        Container(
+                          width: _minimumpadding * 5,
+                        ),
+                        Expanded(
+                          child: RaisedButton(
+                            color: Colors.redAccent,
+                            textColor: Colors.white,
+                            child: Text(
+                              'Delete',
+                              textScaleFactor: 1.5,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                deleteCashbook(widget.cb.receipt_no)
+                                    .then((value) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen()));
+                                });
+                              });
+                            },
+                          ),
                         )
                       ],
                     )),
@@ -324,13 +361,17 @@ class _BookKeepingFormState extends State<BookKeepingForm> {
   }
 
   void _reset() {
-    principalcontroller.clear();
-    receiptnocontroller.clear();
-    quantityController.clear();
-    amountController.clear();
+    receiptnocontroller.text = "${widget.cb.receipt_no}";
+    quantityController.text = "${widget.cb.quantity}";
+    amountController.text = "${widget.cb.amount}";
     displayresult = "";
-    descriptioncontroller.clear();
-    _mydatecontroller.clear();
-    _date_picker_text = "";
+    descriptioncontroller.text = "${widget.cb.description}";
+    selectedDate = widget.cb.date;
+    _date_picker_text =
+        '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}';
+    // _add_btn_disable = false;
+    print(_date_picker_text);
+    _mydatecontroller.text = _date_picker_text;
+    checkBoxValue = false;
   }
 }

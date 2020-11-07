@@ -50,7 +50,7 @@ class _MyDrawerState extends State<MyDrawer> {
           Divider(),
           _createDrawerItem(
               icon: LineAwesomeIcons.book,
-              text: 'Cash Out Book',
+              text: 'New Entry',
               onTap: () {
                 Navigator.pop(context);
                 //Navigator.pushNamed(context, Routes.addbookings);
@@ -90,7 +90,7 @@ class _MyDrawerState extends State<MyDrawer> {
           Divider(),
           _createDrawerItem(
               icon: LineAwesomeIcons.calendar,
-              text: 'Reservation',
+              text: 'Reservations',
               onTap: () {
                 Navigator.pop(context);
                 //Navigator.pushNamed(context, Routes.addbookings);

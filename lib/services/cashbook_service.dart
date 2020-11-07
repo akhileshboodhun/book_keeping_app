@@ -7,28 +7,58 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 String myUrl;
 
-Future<List<Cashbook>> fetchCashbooks() async {
+Future<List<Cashbook>> fetchCashbooks({int choice = 0}) async {
   myUrl = '${Constants.api}/Cashbooks'; //get all bookings
+  if (choice == 1) myUrl += "/reserved";
 
-  var prefs = await SharedPreferences.getInstance();
-  String token = prefs.getString('token');
-  var header = 'Bearer $token';
+  // var prefs = await SharedPreferences.getInstance();
+  // String token = prefs.getString('token');
+  // var header = 'Bearer $token';
 
   HttpClient httpClient = new HttpClient();
   httpClient.badCertificateCallback =
       (X509Certificate cert, String host, int port) => true;
 
   var request = await httpClient.getUrl(Uri.parse(myUrl));
-  request.headers.set('Authorization', header);
-  request.headers.set('Content-type', 'application/json');
+  // request.headers.set('Authorization', header);
+  // request.headers.set('Content-type', 'application/json');
 
   final response = await request.close();
+  final responsebody = await response.transform(Utf8Decoder()).join();
+  print(response.statusCode);
+  // print(responsebody);
+  print(request.connectionInfo.toString());
   if (response.statusCode == 200) {
-    final responsebody = await response.transform(Utf8Decoder()).join();
-    print(responsebody);
     return parseCashbooks(responsebody);
-  } else
+  } else {
     return parseCashbooks('[]');
+  }
+}
+
+Future<int> getTotalSales() async {
+  myUrl = '${Constants.api}/Cashbooks/totalsales'; //get all bookings
+  // var prefs = await SharedPreferences.getInstance();
+  // String token = prefs.getString('token');
+  // var header = 'Bearer $token';
+
+  HttpClient httpClient = new HttpClient();
+  httpClient.badCertificateCallback =
+      (X509Certificate cert, String host, int port) => true;
+
+  var request = await httpClient.getUrl(Uri.parse(myUrl));
+  // request.headers.set('Authorization', header);
+  // request.headers.set('Content-type', 'application/json');
+
+  final response = await request.close();
+  final responsebody = await response.transform(Utf8Decoder()).join();
+  print(response.statusCode);
+  // print(responsebody);
+  print(request.connectionInfo.toString());
+  if (response.statusCode == 200) {
+    return int.parse(responsebody);
+  } else {
+    return null;
+  }
 }
 
 Future<Cashbook> findCashbook(int id) async {
@@ -101,8 +131,8 @@ Future<bool> postCashbook(Cashbook cb) async {
   return false;
 }
 
-Future<bool> updateCashbook(Cashbook cb) async {
-  myUrl = '${Constants.api}/Cashbooks'; //get all bookings
+Future<bool> updateCashbook(int id, Cashbook cb) async {
+  myUrl = '${Constants.api}/Cashbooks/$id'; //get all bookings
 
   // var prefs = await SharedPreferences.getInstance();
   // String token = prefs.getString('token');
@@ -112,7 +142,7 @@ Future<bool> updateCashbook(Cashbook cb) async {
   httpClient.badCertificateCallback =
       (X509Certificate cert, String host, int port) => true;
 
-  var request = await httpClient.patchUrl(Uri.parse(myUrl));
+  var request = await httpClient.putUrl(Uri.parse(myUrl));
   // request.headers.set('Authorization', header);
   request.headers.set('Content-type', 'application/json');
   // List<Map<String, dynamic>> myjsonarray = [];
@@ -127,7 +157,7 @@ Future<bool> updateCashbook(Cashbook cb) async {
   request.write(json.encode(cb));
 
   final response = await request.close();
-  if (response.statusCode == 201) {
+  if (response.statusCode == 204) {
     //status 201 means CREATED
     final responsebody = await response.transform(Utf8Decoder()).join();
     print(responsebody);
@@ -137,6 +167,35 @@ Future<bool> updateCashbook(Cashbook cb) async {
   final responsebody = await response.transform(Utf8Decoder()).join();
   print(responsebody);
   print(json.encode(body));
+  print(request.connectionInfo);
+  return false;
+}
+
+Future<bool> deleteCashbook(int id) async {
+  myUrl = '${Constants.api}/Cashbooks/$id'; //get all bookings
+
+  // var prefs = await SharedPreferences.getInstance();
+  // String token = prefs.getString('token');
+  // var header = 'Bearer $token';
+
+  HttpClient httpClient = new HttpClient();
+  httpClient.badCertificateCallback =
+      (X509Certificate cert, String host, int port) => true;
+
+  var request = await httpClient.deleteUrl(Uri.parse(myUrl));
+  // request.headers.set('Authorization', header);
+  request.headers.set('Content-type', 'application/json');
+
+  final response = await request.close();
+  if (response.statusCode == 204) {
+    //status 201 means CREATED
+    final responsebody = await response.transform(Utf8Decoder()).join();
+    print(responsebody);
+    return true;
+  } else
+    print(response.statusCode);
+  final responsebody = await response.transform(Utf8Decoder()).join();
+  print(responsebody);
   print(request.connectionInfo);
   return false;
 }

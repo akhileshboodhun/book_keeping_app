@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Item extends StatelessWidget {
   final String title;
   final dynamic icon;
-  final dynamic color;
+  final Color color;
 
   Item({this.title, this.icon, this.color});
 
@@ -15,7 +15,7 @@ class Item extends StatelessWidget {
       height: (screenWidth - 40 - 17 - 30) / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: Color(color),
+        color: color,
       ),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
