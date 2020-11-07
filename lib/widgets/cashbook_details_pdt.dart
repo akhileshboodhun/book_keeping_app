@@ -72,13 +72,12 @@ class _MyPaginatedDTState extends State<MyPaginatedDT> {
                       showCheckboxColumn: false,
                       columns: [
                         DataColumn(label: Text('Receipt No.')),
-                        DataColumn(label: Text('Details')),
                         DataColumn(label: Text('Quantity')),
                         DataColumn(label: Text('Amount')),
                         DataColumn(label: Text('Date')),
                       ],
                       sortColumnIndex: 1,
-                      columnSpacing: 0,
+                      columnSpacing: 0.5,
                       sortAscending: false,
                       source: _tableDataSource,
                       rowsPerPage: _rowsPerPage,
@@ -116,11 +115,13 @@ class CashbooksTableDataSource extends DataTableSource {
       cells: <DataCell>[
         DataCell(Text(element.receipt_no.toString()),
             onTap: () => taptap(element)),
-        DataCell(Text(element.description), onTap: () => taptap(element)),
         DataCell(Text(element.quantity.toString()),
             onTap: () => taptap(element)),
         DataCell(Text(element.amount.toString()), onTap: () => taptap(element)),
-        DataCell(Text(element.date.toString()), onTap: () => taptap(element)),
+        DataCell(
+            Text(
+                '${element.date.day}-${element.date.month}-${element.date.year}'),
+            onTap: () => taptap(element)),
       ],
     );
   }
